@@ -13,7 +13,18 @@ set(LIBSTEMMER_SOURCES
 
 # Generated stemmer sources (UTF-8 versions for supported languages)
 set(STEMMER_SOURCES
+  ${SNOWBALL_SOURCE_DIR}/src_c/stem_UTF_8_arabic.c
+  ${SNOWBALL_SOURCE_DIR}/src_c/stem_UTF_8_dutch.c
   ${SNOWBALL_SOURCE_DIR}/src_c/stem_UTF_8_english.c
+  ${SNOWBALL_SOURCE_DIR}/src_c/stem_UTF_8_french.c
+  ${SNOWBALL_SOURCE_DIR}/src_c/stem_UTF_8_german.c
+  ${SNOWBALL_SOURCE_DIR}/src_c/stem_UTF_8_indonesian.c
+  ${SNOWBALL_SOURCE_DIR}/src_c/stem_UTF_8_italian.c
+  ${SNOWBALL_SOURCE_DIR}/src_c/stem_UTF_8_portuguese.c
+  ${SNOWBALL_SOURCE_DIR}/src_c/stem_UTF_8_russian.c
+  ${SNOWBALL_SOURCE_DIR}/src_c/stem_UTF_8_spanish.c
+  ${SNOWBALL_SOURCE_DIR}/src_c/stem_UTF_8_swedish.c
+  ${SNOWBALL_SOURCE_DIR}/src_c/stem_UTF_8_turkish.c
 )
 
 # Create the snowball library
