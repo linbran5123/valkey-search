@@ -47,18 +47,13 @@ TEST_P(SnowballProcessorFactoryTest, DefaultPunctuationNotEmpty) {
 
 INSTANTIATE_TEST_SUITE_P(
     AllLanguages, SnowballProcessorFactoryTest,
-    ::testing::Values(data_model::LANGUAGE_ENGLISH,
-                      data_model::LANGUAGE_FRENCH,
-                      data_model::LANGUAGE_GERMAN,
-                      data_model::LANGUAGE_SPANISH,
-                      data_model::LANGUAGE_ITALIAN,
-                      data_model::LANGUAGE_PORTUGUESE,
-                      data_model::LANGUAGE_RUSSIAN,
-                      data_model::LANGUAGE_SWEDISH,
-                      data_model::LANGUAGE_TURKISH,
-                      data_model::LANGUAGE_DUTCH,
-                      data_model::LANGUAGE_INDONESIAN,
-                      data_model::LANGUAGE_ARABIC));
+    ::testing::Values(
+        data_model::LANGUAGE_ENGLISH, data_model::LANGUAGE_FRENCH,
+        data_model::LANGUAGE_GERMAN, data_model::LANGUAGE_SPANISH,
+        data_model::LANGUAGE_ITALIAN, data_model::LANGUAGE_PORTUGUESE,
+        data_model::LANGUAGE_RUSSIAN, data_model::LANGUAGE_SWEDISH,
+        data_model::LANGUAGE_TURKISH, data_model::LANGUAGE_DUTCH,
+        data_model::LANGUAGE_INDONESIAN, data_model::LANGUAGE_ARABIC));
 
 TEST(SnowballProcessorFactoryTest, UnspecifiedLanguageReturnsNonNull) {
   auto processor = LanguageProcessor::Create(data_model::LANGUAGE_UNSPECIFIED);
@@ -439,9 +434,13 @@ TEST_F(SnowballProcessorRussianTest, StemWordInPlace_Running) {
 
 TEST_F(SnowballProcessorRussianTest, StemWordInPlace_Libraries) {
   // библиотеки (libraries) -> библиотек
-  std::string word = "\xd0\xb1\xd0\xb8\xd0\xb1\xd0\xbb\xd0\xb8\xd0\xbe\xd1\x82\xd0\xb5\xd0\xba\xd0\xb8";
+  std::string word =
+      "\xd0\xb1\xd0\xb8\xd0\xb1\xd0\xbb\xd0\xb8\xd0\xbe\xd1\x82\xd0\xb5\xd0\xba"
+      "\xd0\xb8";
   processor_->StemWordInPlace(word, 3);
-  EXPECT_EQ(word, "\xd0\xb1\xd0\xb8\xd0\xb1\xd0\xbb\xd0\xb8\xd0\xbe\xd1\x82\xd0\xb5\xd0\xba");
+  EXPECT_EQ(word,
+            "\xd0\xb1\xd0\xb8\xd0\xb1\xd0\xbb\xd0\xb8\xd0\xbe\xd1\x82\xd0\xb5"
+            "\xd0\xba");
 }
 
 TEST_F(SnowballProcessorRussianTest, StemWordInPlace_MinStemSizePrevents) {
@@ -453,27 +452,39 @@ TEST_F(SnowballProcessorRussianTest, StemWordInPlace_MinStemSizePrevents) {
 
 TEST_F(SnowballProcessorRussianTest, StemWordInPlace_AlreadyStemmed) {
   // библиотек (already the stem)
-  std::string word = "\xd0\xb1\xd0\xb8\xd0\xb1\xd0\xbb\xd0\xb8\xd0\xbe\xd1\x82\xd0\xb5\xd0\xba";
+  std::string word =
+      "\xd0\xb1\xd0\xb8\xd0\xb1\xd0\xbb\xd0\xb8\xd0\xbe\xd1\x82\xd0\xb5\xd0"
+      "\xba";
   processor_->StemWordInPlace(word, 3);
-  EXPECT_EQ(word, "\xd0\xb1\xd0\xb8\xd0\xb1\xd0\xbb\xd0\xb8\xd0\xbe\xd1\x82\xd0\xb5\xd0\xba");
+  EXPECT_EQ(word,
+            "\xd0\xb1\xd0\xb8\xd0\xb1\xd0\xbb\xd0\xb8\xd0\xbe\xd1\x82\xd0\xb5"
+            "\xd0\xba");
 }
 
 TEST_F(SnowballProcessorRussianTest, BuildStemMap_CaseVariants) {
   // библиотеки, библиотека -> библиотек
   std::vector<std::string> tokens = {
-      "\xd0\xb1\xd0\xb8\xd0\xb1\xd0\xbb\xd0\xb8\xd0\xbe\xd1\x82\xd0\xb5\xd0\xba\xd0\xb8",
-      "\xd0\xb1\xd0\xb8\xd0\xb1\xd0\xbb\xd0\xb8\xd0\xbe\xd1\x82\xd0\xb5\xd0\xba\xd0\xb0"};
+      "\xd0\xb1\xd0\xb8\xd0\xb1\xd0\xbb\xd0\xb8\xd0\xbe\xd1\x82\xd0\xb5\xd0\xba"
+      "\xd0\xb8",
+      "\xd0\xb1\xd0\xb8\xd0\xb1\xd0\xbb\xd0\xb8\xd0\xbe\xd1\x82\xd0\xb5\xd0\xba"
+      "\xd0\xb0"};
   InProgressStemMap stem_mappings;
   processor_->BuildStemMap(tokens, 3, stem_mappings);
-  EXPECT_TRUE(stem_mappings.contains(
-      "\xd0\xb1\xd0\xb8\xd0\xb1\xd0\xbb\xd0\xb8\xd0\xbe\xd1\x82\xd0\xb5\xd0\xba"));
-  EXPECT_EQ(stem_mappings["\xd0\xb1\xd0\xb8\xd0\xb1\xd0\xbb\xd0\xb8\xd0\xbe\xd1\x82\xd0\xb5\xd0\xba"].size(), 2);
+  EXPECT_TRUE(
+      stem_mappings.contains("\xd0\xb1\xd0\xb8\xd0\xb1\xd0\xbb\xd0\xb8\xd0\xbe"
+                             "\xd1\x82\xd0\xb5\xd0\xba"));
+  EXPECT_EQ(stem_mappings["\xd0\xb1\xd0\xb8\xd0\xb1\xd0\xbb\xd0\xb8\xd0\xbe\xd1"
+                          "\x82\xd0\xb5\xd0\xba"]
+                .size(),
+            2);
 }
 
 TEST_F(SnowballProcessorRussianTest, BuildStemMap_MinStemSizePreventsAll) {
   std::vector<std::string> tokens = {
-      "\xd0\xb1\xd0\xb8\xd0\xb1\xd0\xbb\xd0\xb8\xd0\xbe\xd1\x82\xd0\xb5\xd0\xba\xd0\xb8",
-      "\xd0\xb1\xd0\xb8\xd0\xb1\xd0\xbb\xd0\xb8\xd0\xbe\xd1\x82\xd0\xb5\xd0\xba\xd0\xb0"};
+      "\xd0\xb1\xd0\xb8\xd0\xb1\xd0\xbb\xd0\xb8\xd0\xbe\xd1\x82\xd0\xb5\xd0\xba"
+      "\xd0\xb8",
+      "\xd0\xb1\xd0\xb8\xd0\xb1\xd0\xbb\xd0\xb8\xd0\xbe\xd1\x82\xd0\xb5\xd0\xba"
+      "\xd0\xb0"};
   InProgressStemMap stem_mappings;
   processor_->BuildStemMap(tokens, 100, stem_mappings);
   EXPECT_TRUE(stem_mappings.empty());
