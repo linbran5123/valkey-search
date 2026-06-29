@@ -253,7 +253,7 @@ INSTANTIATE_TEST_SUITE_P(
         data_model::LANGUAGE_TURKISH, data_model::LANGUAGE_DUTCH,
         data_model::LANGUAGE_INDONESIAN, data_model::LANGUAGE_ARABIC));
 
-TEST(SnowballProcessorFactoryTest, UnspecifiedLanguageReturnsNonNull) {
+TEST(SnowballProcessorFactoryEdgeTest, UnspecifiedLanguageReturnsNonNull) {
   auto processor = LanguageProcessor::Create(data_model::LANGUAGE_UNSPECIFIED);
   EXPECT_NE(processor, nullptr);
 }
